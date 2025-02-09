@@ -19,47 +19,47 @@ func TestGetAPIKey(t *testing.T) {
 	header4.Add("Authorization", " token4")
 
 	type test struct {
-		name string
-		input http.Header
-		want string
+		name    string
+		input   http.Header
+		want    string
 		wantErr bool
 	}
 
 	tests := []test{
 		{
-			name: "valid api key",
-			input: header1,
-			want: "token1",
+			name:    "valid api key",
+			input:   header1,
+			want:    "token1",
 			wantErr: false,
 		},
 		{
-			name: "Invaldid format in value",
-			input: header2,
-			want: "",
+			name:    "Invaldid format in value",
+			input:   header2,
+			want:    "",
 			wantErr: true,
 		},
 		{
-			name: "valid key, no value",
-			input: header3,
-			want: "",
+			name:    "valid key, no value",
+			input:   header3,
+			want:    "",
 			wantErr: true,
 		},
 		{
-			name: "Invalid format, missing ApiKey",
-			input: header4,
-			want: "",
+			name:    "Invalid format, missing ApiKey",
+			input:   header4,
+			want:    "",
 			wantErr: true,
 		},
 	}
 
 	for _, tc := range tests {
 		got, err := GetAPIKey(tc.input)
-		
+
 		if tc.wantErr && err == nil {
 			t.Errorf("%s: expected an error and got none", tc.name)
 			continue
 		}
-		
+
 		if !tc.wantErr && err != nil {
 			t.Errorf("%s: unexpected error: %v", tc.name, err)
 			continue
